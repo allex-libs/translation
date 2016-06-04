@@ -1,0 +1,20 @@
+{
+  "name": "allex_translationlib",
+  "version": "0.1.0",
+  "description": "AllexJS lib for translation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.hers.rs:allex_libs/translation.git"
+  },
+  "keywords": [
+    "AllexJS",
+    "translation",
+    "lib"
+  ],
+  "author": "HERS Belgrade",
+  "license": "ISC"
+}
