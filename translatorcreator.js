@@ -5,13 +5,14 @@ function createTranslator(execlib) {
     qlib = lib.qlib,
     JobBase = qlib.JobBase;
 
-  function Translator(vocabularysink, language) {
+  function Translator(vocabularysink, language, merge) {
     if (!vocabularysink) {
       throw new qlib.Error('NEED_A_VOCABULARY_SINK', sink);
     }
     JobBase.call(this);
     this.vocabularysink = vocabularysink;
     this.language = language;
+    this.merge = merge;
     this.translating = false;
     this.resulter = this.takeResult.bind(this);
     this.rejecter = this.reject.bind(this);
@@ -21,6 +22,7 @@ function createTranslator(execlib) {
     this.rejecter = null;
     this.resulter = null;
     this.translating = null;
+    this.merge = null;
     this.language = null;
     this.vocabularysink = null;
     JobBase.prototype.destroy.call(this);
@@ -40,13 +42,18 @@ function createTranslator(execlib) {
   Translator.prototype.finalResolver = function (resobj) {
     this.resolve(resobj.result);
   };
-  function propertysetter(obj, key) {
+  function propertysetter(merge, obj, key) {
     return function (val) {
       if (!obj) {
         return;
       }
       var ret = obj;
-      obj[key] = val;
+      if (merge) {
+        obj[key] = {generic: obj[key], translation: val};
+      } else {
+        obj[key] = val;
+      }
+      merge = null;
       obj = null;
       key = null;
       return q(ret);
@@ -75,10 +82,10 @@ function createTranslator(execlib) {
       return;
     }
     if (lib.isNumber(thingy)) {
-      return this.translate(thingy+'').then(propertysetter(dest,key));
+      return this.translate(thingy+'').then(propertysetter(this.merge,dest,key));
     }
     if (lib.isString(thingy)) {
-      return this.translate(thingy).then(propertysetter(dest,key));
+      return this.translate(thingy).then(propertysetter(this.merge,dest,key));
     }
     if (lib.isArray(thingy)) {
       promises = thingy.map(this.arrayElementTranslator.bind(this));
