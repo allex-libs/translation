@@ -1,6 +1,6 @@
 {
   "name": "allex_translationlib",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "AllexJS lib for translation",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.hers.rs:allex_libs/translation.git"
+    "url": "git@github.com:allex-libs/translation.git"
   },
   "keywords": [
     "AllexJS",
